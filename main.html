@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8"/>
+	<title>ThinMatrixTut</title>
+
+	<!-- 3rd Party Libraries -->
+ 	<script src="../Libraries/glMatrix/gl-matrix.js"></script>
+
+	<!-- Source -->
+	<script src="Entities/Camera.js"></script>
+	<script src="Entities/Entity.js"></script>
+	<script src="Entities/Light.js"></script>
+
+	<script src="Loaders/Loader.js"></script>
+	<script src="Loaders/OBJLoader.js"></script>
+	<script src="Loaders/TextureLoader.js"></script>
+
+	<script src="Models/ModelTexture.js"></script>
+	<script src="Models/RawModel.js"></script>
+	<script src="Models/TexturedModel.js"></script>
+
+	<script src="Renderers/EntityRenderer.js"></script>
+	<script src="Renderers/MasterRenderer.js"></script>
+
+	<script src="Shaders/Fragment/fs_diffuse.js"></script>
+	<script src="Shaders/Fragment/fs_diffuse_texture.js"></script>
+	<script src="Shaders/Fragment/fs_specular.js"></script>
+	<script src="Shaders/Fragment/fs_specular_texture.js"></script>
+	<script src="Shaders/Fragment/fs_template.js"></script>
+	<script src="Shaders/Fragment/fs_texture.js"></script>
+
+	<script src="Shaders/Vertex/vs_diffuse.js"></script>
+	<script src="Shaders/Vertex/vs_diffuse_texture.js"></script>
+	<script src="Shaders/Vertex/vs_specular.js"></script>
+	<script src="Shaders/Vertex/vs_specular_texture.js"></script>
+	<script src="Shaders/Vertex/vs_template.js"></script>
+	<script src="Shaders/Vertex/vs_texture.js"></script>
+
+	<script src="Shaders/ShaderProgram.js"></script>
+	<script src="Shaders/StaticShader.js"></script>
+
+	<script src="Toolbox/Maths.js"></script>
+
+	<script src="MainGameLoop.js"></script>
+	<script src="main.js"></script>
+
+</head>
+<body>
+
+	<!--
+		. https://www.youtube.com/playlist?list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP
+		. https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Getting_started_with_WebGL
+		. https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext
+		. https://webgl2fundamentals.org
+	-->
+	
+	<canvas id="glCanvas" width="1280" height="720"></canvas>
+
+</body>
+</html>
