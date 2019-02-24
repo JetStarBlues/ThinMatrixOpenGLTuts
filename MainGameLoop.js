@@ -1,11 +1,13 @@
 var MainGameLoop = function ()
 {
-	this.objLoader = null;
-	this.loader    = null;
-	this.renderer  = null;
+	this.objLoader     = null;
+	this.loader        = null;
+	this.textureLoader = null;
 
-	this.light     = null;
-	this.camera    = null;
+	this.renderer = null;
+	this.light    = null;
+	this.camera   = null;
+	this.texture  = null;
 
 	this.setup();
 }
@@ -13,10 +15,25 @@ var MainGameLoop = function ()
 MainGameLoop.prototype.setup = function ()
 {
 	// Start loading models
-	this.loader    = new Loader();
-	this.objLoader = new OBJLoader();
+	this.loader        = new Loader();
+	this.objLoader     = new OBJLoader();
+	this.textureLoader = new TextureLoader();
 
-	this.objLoader.loadOBJModel( 'Resources/tree.obj', this.loader );
+	this.objLoader.loadOBJModel( 'Resources/stall.obj', this.loader );
+	// this.objLoader.loadOBJModel( 'Resources/Custom/cube.obj', this.loader );
+	// this.objLoader.loadOBJModel( 'Resources/Custom/blenderMonkey.obj', this.loader );
+	// this.objLoader.loadOBJModel( '../../3DModels/Temp/sonicTest.obj', this.loader );
+
+	this.texture = new ModelTexture( this.textureLoader.loadTexture( 'Resources/stall.png', 'image' ) );
+	// this.texture.shineDamper  = 1;
+	// this.texture.reflectivity = 0.2;
+
+
+	// Setup shaders
+	// var vsSource = vs_specular;
+	// var fsSource = fs_specular;
+	var vsSource = vs_texture;
+	var fsSource = fs_texture;
 
 
 	// Setup light
@@ -38,11 +55,6 @@ MainGameLoop.prototype.setup = function ()
 
 	// Setup camera
 	this.camera = new Camera();
-
-
-	// Setup shaders
-	var vsSource = vs_specular;
-	var fsSource = fs_specular;
 
 
 	// Setup renderer
@@ -70,14 +82,7 @@ MainGameLoop.prototype.setupEntities = function ()
 	// Setup model
 	var rawModel = this.objLoader.rawModel;
 
-	var textureLoader = new TextureLoader();
-
-	// var texture = new ModelTexture( textureLoader.loadTexture( 'Resources/tree.png', 'image' ) );
-	var texture = new ModelTexture( textureLoader.loadTexture( 'Resources/image.png', 'image' ) );
-	// texture.shineDamper  = 1;
-	// texture.reflectivity = 0.2;
-
-	var texturedModel = new TexturedModel( rawModel, texture );
+	var texturedModel = new TexturedModel( rawModel, this.texture );
 
 
 	// Setup entities

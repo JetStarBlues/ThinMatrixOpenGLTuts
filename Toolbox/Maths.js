@@ -73,6 +73,21 @@ Maths.createTransformationMatrix = function ( vec3_translation, vec3_rotation, v
 }
 
 
+Maths.createNormalMatrix = function ( transformationMatrix )
+{
+	/* Something about shouldn't be affected by translation	and
+	   accounting for non-uniform scaling:
+	    https://learnopengl.com/Lighting/Basic-Lighting
+	*/
+	var normalMatrix = glMatrix.mat4.create();
+
+	glMatrix.mat4.invert( normalMatrix, transformationMatrix );
+	glMatrix.mat4.transpose( normalMatrix, normalMatrix );
+
+	return normalMatrix;
+}
+
+
 Maths.createViewMatrix = function ( camera )
 {
 	var viewMatrix = glMatrix.mat4.create();

@@ -214,35 +214,42 @@ OBJLoader.prototype.parseFile = function ()
 
 			// console.log( 'vertexData', vertexData );
 
-			var vertexIndex = vertexData[ 0 ];
+			var vertexIndex = vertexData[ 0 ] - 1;  // OBJ one vs zero-indexed
 			var textureIndex;
 			var normalIndex;
 
 			// console.log( 'vertexIndex', vertexIndex );
 
-			this.data[ 'indices'  ].push( vertexIndex - 1 );  // OBJ one vs zero-indexed
+			this.data[ 'indices'  ].push( vertexIndex );
 
-			if ( vertexData.length == 2 || vertexData.length == 3 )
+			if ( textureCoords.length != 0 )
 			{
-				textureIndex = vertexData[ 1 ];
+				textureIndex = vertexData[ 1 ] - 1;
+				tCoord       = textureCoords[ textureIndex ];
 
-				// console.log( 'textureIndex', textureIndex, textureCoords[ textureIndex - 1 ] );
+				// console.log( 'textureIndex', textureIndex, tCoord );
 
-				// this.data[ 'textureCoords' ].push( textureCoords[ textureIndex ] );
-				Array.prototype.push.apply( this.data[ 'textureCoords' ], textureCoords[ textureIndex - 1 ] );
+				// As is, a vertex cannot have multiple textures...
+				this.data[ 'textureCoords' ][ vertexIndex * 2 + 0 ] = tCoord[ 0 ];
+				this.data[ 'textureCoords' ][ vertexIndex * 2 + 1 ] = tCoord[ 1 ];
 			}
 
-			if ( vertexData.length == 3 )
+			if ( normals.length != 0 )
 			{
-				normalIndex  = vertexData[ 2 ];
+				normalIndex  = vertexData[ 2 ] - 1;
+				nCoord       = normals[ normalIndex ];
 
-				// console.log( 'normalIndex', normalIndex, normals[ normalIndex - 1 ] );
+				// console.log( 'normalIndex', normalIndex, nCoord );
 
-				// this.data[ 'normals' ].push( normals[ normalIndex ] );
-				Array.prototype.push.apply( this.data[ 'normals' ], normals[ normalIndex - 1 ] );
+				// As is, a vertex cannot have multiple normals...
+				this.data[ 'normals' ][ vertexIndex * 3 + 0 ] = nCoord[ 0 ];
+				this.data[ 'normals' ][ vertexIndex * 3 + 1 ] = nCoord[ 1 ];
+				this.data[ 'normals' ][ vertexIndex * 3 + 2 ] = nCoord[ 2 ];
 			}
 		}
 	}
+
+	console.log( this.data );
 }
 
 

@@ -1,8 +1,9 @@
 var StaticShader = function ( vsSource, fsSource )
 {
 	// Uniforms
-	this.transformationMatrix = null;
 	this.projectionMatrix     = null;
+	this.transformationMatrix = null;
+	this.normalMatrix         = null;
 	this.viewMatrix           = null;
 	this.lightPosition        = null;
 	this.lightColor           = null;
@@ -27,8 +28,9 @@ StaticShader.prototype.bindAttributes = function ()
 
 StaticShader.prototype.getAllUniformLocations = function ()
 {
-	this.transformationMatrix = this.getUniformLocation( 'transformationMatrix' );
 	this.projectionMatrix     = this.getUniformLocation( 'projectionMatrix' );
+	this.transformationMatrix = this.getUniformLocation( 'transformationMatrix' );
+	this.normalMatrix         = this.getUniformLocation( 'normalMatrix' );
 	this.viewMatrix           = this.getUniformLocation( 'viewMatrix' );
 	this.lightPosition        = this.getUniformLocation( 'lightPosition' );
 	this.lightColor           = this.getUniformLocation( 'lightColor' );
@@ -37,14 +39,19 @@ StaticShader.prototype.getAllUniformLocations = function ()
 }
 
 
+StaticShader.prototype.loadProjectionMatrix = function ( projectionMatrix )
+{
+	this.loadMatrix4( this.projectionMatrix, projectionMatrix );
+}
+
 StaticShader.prototype.loadTransformationMatrix = function ( transformationMatrix )
 {
 	this.loadMatrix4( this.transformationMatrix, transformationMatrix );
 }
 
-StaticShader.prototype.loadProjectionMatrix = function ( projectionMatrix )
+StaticShader.prototype.loadNormalMatrix = function ( normalMatrix )
 {
-	this.loadMatrix4( this.projectionMatrix, projectionMatrix );
+	this.loadMatrix4( this.normalMatrix, normalMatrix );
 }
 
 StaticShader.prototype.loadViewMatrix = function ( camera )

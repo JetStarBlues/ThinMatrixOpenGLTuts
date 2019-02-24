@@ -32,7 +32,8 @@ EntityRenderer.prototype.render = function ( entities )
 
 			// entity.changePosition( { 'x' : 0.00002, 'y' : 0, 'z' : 0 } );
 			// entity.changePosition( { 'x' : 0, 'y' : 0, 'z' : -0.00002 } );
-			entity.changeRotation( { 'x' : 0.5, 'y' : 0.5, 'z' : 0 } );
+			entity.changeRotation( { 'x' : 0, 'y' : 0.5, 'z' : 0 } );
+			// entity.changeRotation( { 'x' : 0.5, 'y' : 0.5, 'z' : 0 } );
 
 			this.prepareInstance( entity );
 
@@ -76,7 +77,10 @@ EntityRenderer.prototype.prepareInstance = function ( entity )
 		entity.scale
 	);
 
+	var normalMatrix = Maths.createNormalMatrix( transformationMatrix );
+
 	this.shader.loadTransformationMatrix( transformationMatrix );
+	this.shader.loadNormalMatrix( normalMatrix );
 }
 
 EntityRenderer.prototype.unbindTexturedModel = function ()
