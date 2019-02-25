@@ -19,20 +19,23 @@ MainGameLoop.prototype.setup = function ()
 	this.objLoader     = new OBJLoader();
 	this.textureLoader = new TextureLoader();
 
-	this.objLoader.loadOBJModel( 'Resources/tree.obj', this.loader );
-	// this.objLoader.loadOBJModel( 'Resources/Custom/cube.obj', this.loader );
-	// this.objLoader.loadOBJModel( 'Resources/Custom/icosphere.obj', this.loader );
-	// this.objLoader.loadOBJModel( 'Resources/Custom/blenderMonkey.obj', this.loader );
+	this.objLoader.loadOBJModel( 'Resources/Tutorials/tree.obj', this.loader );
+	// this.objLoader.loadOBJModel( 'Resources/Tutorials/Custom/cube.obj', this.loader );
+	// this.objLoader.loadOBJModel( 'Resources/Tutorials/Custom/icosphere.obj', this.loader );
+	// this.objLoader.loadOBJModel( 'Resources/Tutorials/Custom/blenderMonkey.obj', this.loader );
 	// this.objLoader.loadOBJModel( '../../3DModels/Temp/sonicTest.obj', this.loader );
 
-	this.texture = new ModelTexture( this.textureLoader.loadTexture( 'Resources/tree.png', 'image' ) );
+	this.texture = new ModelTexture( this.textureLoader.loadTexture( 'Resources/Tutorials/tree.png', 'image' ) );
 
 
 	// Setup shaders
-	var vsSource = vs_diffuse;
-	var fsSource = fs_diffuse;
-	// var vsSource = vs_phong_texture;
-	// var fsSource = fs_phong_texture;
+	var entityShaders = {
+
+		'vsSource' : vs_diffuse,
+		'fsSource' : fs_diffuse,
+		// 'vsSource' : vs_phong_texture,
+		// 'fsSource' : fs_phong_texture,
+	}
 
 
 	// Setup light
@@ -57,7 +60,7 @@ MainGameLoop.prototype.setup = function ()
 
 
 	// Setup renderer
-	this.renderer = new MasterRenderer( vsSource, fsSource );
+	this.renderer = new MasterRenderer( entityShaders );
 }
 
 MainGameLoop.prototype.render = function ()
@@ -73,7 +76,7 @@ MainGameLoop.prototype.render = function ()
 	}
 
 	// Render
-	this.renderer.render( this.light, this.camera );
+	this.renderer.render( this.camera, this.light );
 }
 
 MainGameLoop.prototype.setupEntities = function ()

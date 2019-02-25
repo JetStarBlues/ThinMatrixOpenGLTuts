@@ -15,6 +15,12 @@ Maths.isPowerOf2 = function ( x )
 	return ( x & ( x - 1 ) ) == 0;
 }
 
+Maths.map = function ( x, oldMin, oldMax, newMin, newMax )
+{
+	// https://gist.github.com/companje/29408948f1e8be54dd5733a74ca49bb9
+	return newMin + ( x - oldMin ) * ( newMax - newMin ) / ( oldMax - oldMin );
+}
+
 
 Maths.createTransformationMatrix = function ( vec3_translation, vec3_rotation, vec3_scale )
 {

@@ -1,4 +1,4 @@
-var MasterRenderer = function ( vsSource, fsSource )
+var MasterRenderer = function ( entityShaders )
 {
 	this.configureGL();
 
@@ -19,25 +19,16 @@ var MasterRenderer = function ( vsSource, fsSource )
 	);
 
 
-	this.shader = new StaticShader( vsSource, fsSource );
-
 	this.entities = {};
 
-	this.renderer = new EntityRenderer( this.shader, this.projectionMatrix );
+	this.entityRenderer = new EntityRenderer( entityShaders, this.projectionMatrix );
 }
 
-MasterRenderer.prototype.render = function ( sun, camera )
+MasterRenderer.prototype.render = function ( camera, sun )
 {
 	gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
 
-	this.shader.start();
-
-	this.shader.loadLight( sun );
-	this.shader.loadViewMatrix( camera );
-
-	this.renderer.render( this.entities );
-
-	this.shader.stop();
+	this.entityRenderer.render( this.entities, camera, sun );
 }
 
 MasterRenderer.prototype.configureGL = function ()

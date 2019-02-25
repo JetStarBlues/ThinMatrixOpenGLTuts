@@ -1,13 +1,29 @@
-var EntityRenderer = function ( shader, projectionMatrix )
+var EntityRenderer = function ( shaderSource, projectionMatrix )
 {
-	this.shader = shader;
+	this.shader = new StaticShader(
+
+		shaderSource[ 'vsSource' ],
+		shaderSource[ 'fsSource' ]
+	);
 
 	this.shader.start();
 	this.shader.loadProjectionMatrix( projectionMatrix );
 	this.shader.stop();
 }
 
-EntityRenderer.prototype.render = function ( entities )
+EntityRenderer.prototype.render = function ( entities, camera, sun )
+{
+	this.shader.start();
+
+	this.shader.loadViewMatrix( camera );
+	this.shader.loadLight( sun );
+
+	this.renderEntities( entities );
+
+	this.shader.stop();
+}
+
+EntityRenderer.prototype.renderEntities = function ( entities )
 {
 	var modelIDs = Object.keys( entities );
 
