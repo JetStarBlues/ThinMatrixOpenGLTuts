@@ -1,0 +1,23 @@
+TODO:
+	- height map
+		. (0..255) then map(r, 0, 255, minHeight, maxHeight)
+		. canvas to get pixel, https://stackoverflow.com/a/8751659
+		. and delete the canvas after
+
+		. explore on another day
+			. use shadershop to generate own height map
+			. http://tobyschachman.com/Shadershop/editor/
+			. https://vimeo.com/113177169
+
+	- terrain collision
+		. explore on another day, 
+			. barycentric coordinates
+			. https://www.khanacademy.org/partner-content/pixar/modeling-character/subdivision-averages/v/charactermodeling5
+
+	- particles
+		. data.gui for particle customization?
+			https://workshop.chromeexperiments.com/examples/gui/#1--Basic-Usage
+		. recreate KA projects
+
+
+
