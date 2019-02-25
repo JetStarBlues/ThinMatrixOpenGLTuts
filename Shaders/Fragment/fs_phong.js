@@ -4,12 +4,13 @@ const fs_phong = `#version 300 es
 
 	precision mediump float;
 
-	in  vec3 surfaceNormal;
+	in  vec4 surfaceNormal;
 	// in  vec3 toLightVector;
-	// in  vec3 toCameraVector;
+	in  vec3 toCameraVector;
 	in vec4 worldPosition;
-	in vec4 viewPosition;
-	in vec4 viewNormal;
+	// in vec3 unitNormal;
+	// in vec3 unitLightVector;
+	// in vec3 pass_normal;
 
 	out vec4 outputColor;
 
@@ -17,6 +18,7 @@ const fs_phong = `#version 300 es
 	uniform vec3  lightPosition;
 	// uniform float shineDamper;
 	// uniform float reflectivity;
+	// uniform mat4 normalMatrix;
 
 	void main ( void )
 	{
@@ -26,18 +28,16 @@ const fs_phong = `#version 300 es
 		float ambientStrength = 0.2;
 		vec3 ambient = ambientStrength * lightColor;
 
+		// vec4 surfaceNormal = normalMatrix * vec4( pass_normal, 1.0 );
 
-		// // float shineDamper   = 1.0;
-		// // float reflectivity  = 0.2;
 
-		// vec3 surfaceNormal = pass_normal;
-		// vec3 toLightVector = lightPosition - worldPosition.xyz;
-		vec3 toLightVector = lightPosition - viewPosition.xyz;
+		float shineDamper   = 1.0;
+		float reflectivity  = 0.2;
+
+		vec3 toLightVector = lightPosition - worldPosition.xyz;
 
 		// Normalize so that size doesn't affect calculations, only direction
-		vec3 unitNormal      = normalize( viewNormal.xyz );
-		// vec3 unitNormal      = normalize( surfaceNormal );
-		// vec3 unitNormal      = normalize( pass_normal );
+		vec3 unitNormal      = normalize( surfaceNormal.xyz );
 		vec3 unitLightVector = normalize( toLightVector );
 
 
@@ -50,7 +50,7 @@ const fs_phong = `#version 300 es
 		vec3  diffuse        = brightness * lightColor;
 
 
-		// // --- Specular ---
+		// --- Specular ---
 		// vec3 unitVectorToCamera      = normalize( toCameraVector );
 		// vec3 lightDirection          = - unitLightVector;           // vector pointing from light to object
 		// vec3 reflectedLightDirection = reflect( lightDirection, unitNormal );
@@ -61,12 +61,13 @@ const fs_phong = `#version 300 es
 
 		// // Dampen
 		// float dampedFactor  = pow( specularFactor, shineDamper );
-		// vec3  finalSpecular = dampedFactor * reflectivity * lightColor;
+		// vec3  specular = dampedFactor * reflectivity * lightColor;
 
 
 		// --- Final color ---
 		// outputColor = vec4( diffuse, 1.0 ) + vec4( finalSpecular, 1.0 );
 		vec3 finalColor = ( ambient + diffuse ) * objectColor;
+		// vec3 finalColor = ( ambient + diffuse + specular ) * objectColor;
 
 		outputColor = vec4( finalColor, 1.0 );
 	}

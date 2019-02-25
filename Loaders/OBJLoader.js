@@ -87,8 +87,8 @@ OBJLoader.prototype.parseFile = function ()
 	var positions     = [];
 	var textureCoords = [];
 	var normals       = [];
-	var faces         = [];
 	var vertexColors  = [];
+	var vertData      = [];
 
 	for ( var i = 0; i < lines.length; i += 1 )
 	{
@@ -109,8 +109,7 @@ OBJLoader.prototype.parseFile = function ()
 
 			// console.log( 'v', coord );
 
-			// positions.push( coord );
-			Array.prototype.push.apply( positions, coord );  // extend
+			positions.push( coord );
 
 			// vertex colors
 			if ( coordRaw.length > 3 )
@@ -126,8 +125,7 @@ OBJLoader.prototype.parseFile = function ()
 
 				// console.log( 'vc', color );
 
-				// vertexColors.push( color );
-				Array.prototype.push.apply( vertexColors, color );
+				vertexColors.push( color );
 			}
 		}
 
@@ -173,83 +171,79 @@ OBJLoader.prototype.parseFile = function ()
 
 			for ( var j = 0; j < coordRaw.length; j += 1 )
 			{
-				var indicesRaw = coordRaw[ j ].split( '/' );
-				var indices = [];
+				var face       = coordRaw[ j ];
+				var indicesRaw = face.split( '/' );
+				var indices    = [];
 
 				for ( var k = 0; k < indicesRaw.length; k += 1 )
 				{
 					indices.push( parseInt( indicesRaw[ k ] ) );
 				}
 
-				coord.push( indices );
+				vertData.push( {
+
+					'key'     : face,
+					'indices' : indices
+				})
+				// coord.push( indices );
 			}
 
 			// console.log( 'f', coord );
 
-			faces.push( coord );
+			// faces.push( coord );
 		}
 	}
 
+	// console.log( vertData );
 
-	// Create indexed blah...
-	this.data[ 'positions' ] = positions;
 
-	if ( vertexColors.length != 0 )
+	// Create index...
+	var keys = [];
+	var iIdx = 0;
+
+	for ( var i = 0; i < vertData.length; i += 1 )
 	{
-		this.data[ 'vertexColors' ] = vertexColors;
-	}
+		var vData = vertData[ i ];
 
-	for ( var i = 0; i < faces.length; i += 1 )
-	{
-		var face = faces[ i ];
+		var key  = vData[ 'key' ];
+		var vIdx = vData[ 'indices' ][ 0 ] - 1;  // OBJ one vs zero-indexed
+		var tIdx = vData[ 'indices' ][ 1 ] - 1;
+		var nIdx = vData[ 'indices' ][ 2 ] - 1;
 
-		// console.log( 'face', face );
-
-		// for each vert that defines the face...
-		for ( var j = 0; j < face.length; j += 1 )
+		if ( keys.indexOf( key ) >= 0 )
 		{
-			var vertexData = face[ j ];
+			// Not unique combination so reference existing
+			this.data[ 'indices' ].push( keys.indexOf( key ) );
+		}
 
-			this.data[ 'vertexCount' ] += 1;
+		else
+		{
+			// Unique combinantion so create new entries
+			this.data[ 'indices' ].push( iIdx );
 
-			// console.log( 'vertexData', vertexData );
+			Array.prototype.push.apply( this.data[ 'positions' ], positions[ vIdx ] );
 
-			var vertexIndex = vertexData[ 0 ] - 1;  // OBJ one vs zero-indexed
-			var textureIndex;
-			var normalIndex;
-
-			// console.log( 'vertexIndex', vertexIndex );
-
-			this.data[ 'indices'  ].push( vertexIndex );
+			if ( vertexColors.length != 0 )
+			{
+				Array.prototype.push.apply( this.data[ 'vertexColors' ], vertexColors[ vIdx ] );
+			}
 
 			if ( textureCoords.length != 0 )
 			{
-				textureIndex = vertexData[ 1 ] - 1;
-				tCoord       = textureCoords[ textureIndex ];
-
-				// console.log( 'textureIndex', textureIndex, tCoord );
-
-				// As is, a vertex cannot have multiple textures...
-				this.data[ 'textureCoords' ][ vertexIndex * 2 + 0 ] = tCoord[ 0 ];
-				this.data[ 'textureCoords' ][ vertexIndex * 2 + 1 ] = tCoord[ 1 ];
+				Array.prototype.push.apply( this.data[ 'textureCoords' ], textureCoords[ tIdx ] );
 			}
 
 			if ( normals.length != 0 )
 			{
-				normalIndex  = vertexData[ 2 ] - 1;
-				nCoord       = normals[ normalIndex ];
-
-				// console.log( 'normalIndex', normalIndex, nCoord );
-
-				// As is, a vertex cannot have multiple normals...
-				this.data[ 'normals' ][ vertexIndex * 3 + 0 ] = nCoord[ 0 ];
-				this.data[ 'normals' ][ vertexIndex * 3 + 1 ] = nCoord[ 1 ];
-				this.data[ 'normals' ][ vertexIndex * 3 + 2 ] = nCoord[ 2 ];
+				Array.prototype.push.apply( this.data[ 'normals' ], normals[ nIdx ] );
 			}
+
+			iIdx += 1;
+			keys.push( key );
 		}
 	}
 
-	console.log( this.data );
+	// console.log( this.data );
 }
 
 

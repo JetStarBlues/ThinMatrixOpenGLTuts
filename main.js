@@ -8,10 +8,15 @@ var KEY_LEFT  = 37;
 var KEY_RIGHT = 39;
 var KEY_UP    = 38;
 var KEY_DOWN  = 40;
-var KEY_Z     = 90;
-var KEY_X     = 88;
+var KEY_A     = 65;
+var KEY_D     = 68;
+var KEY_F     = 70;
+var KEY_G     = 71;
+var KEY_H     = 72;
 var KEY_Q     = 81;
-
+var KEY_S     = 83;
+var KEY_X     = 88;
+var KEY_Z     = 90;
 
 
 // Entry

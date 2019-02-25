@@ -1,0 +1,12 @@
+Exporting OBJ from blender
+
+	. Under export menu
+		- select:
+			. write normals
+			. include UVs
+			. triangulate faces
+
+		- deselect:
+			. apply modifiers
+			. include edges
+			. write materials
