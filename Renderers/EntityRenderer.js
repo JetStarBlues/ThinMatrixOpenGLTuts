@@ -61,9 +61,6 @@ EntityRenderer.prototype.prepareTexturedModel = function ( model )
 	gl.enableVertexAttribArray( 1 );  // texureCoordinates
 	gl.enableVertexAttribArray( 2 );  // normal
 
-	this.shader.loadShineDamper( model.texture.shineDamper );
-	this.shader.loadReflectivity( model.texture.reflectivity );
-
 	gl.activeTexture( gl.TEXTURE0 );
 	gl.bindTexture( gl.TEXTURE_2D, model.texture.textureID );
 }
@@ -81,6 +78,8 @@ EntityRenderer.prototype.prepareInstance = function ( entity )
 
 	this.shader.loadTransformationMatrix( transformationMatrix );
 	this.shader.loadNormalMatrix( normalMatrix );
+
+	this.shader.loadMaterial( entity.material );
 }
 
 EntityRenderer.prototype.unbindTexturedModel = function ()

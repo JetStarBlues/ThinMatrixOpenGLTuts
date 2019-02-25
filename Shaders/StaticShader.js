@@ -28,14 +28,18 @@ StaticShader.prototype.bindAttributes = function ()
 
 StaticShader.prototype.getAllUniformLocations = function ()
 {
-	this.projectionMatrix     = this.getUniformLocation( 'projectionMatrix' );
-	this.transformationMatrix = this.getUniformLocation( 'transformationMatrix' );
-	this.normalMatrix         = this.getUniformLocation( 'normalMatrix' );
-	this.viewMatrix           = this.getUniformLocation( 'viewMatrix' );
-	this.lightPosition        = this.getUniformLocation( 'lightPosition' );
-	this.lightColor           = this.getUniformLocation( 'lightColor' );
-	this.shineDamper          = this.getUniformLocation( 'shineDamper' );
-	this.reflectivity         = this.getUniformLocation( 'reflectivity' );
+	this.projectionMatrix         = this.getUniformLocation( 'projectionMatrix' );
+	this.transformationMatrix     = this.getUniformLocation( 'transformationMatrix' );
+	this.normalMatrix             = this.getUniformLocation( 'normalMatrix' );
+	this.viewMatrix               = this.getUniformLocation( 'viewMatrix' );
+	this.lightPosition            = this.getUniformLocation( 'lightPosition' );
+	this.lightColor               = this.getUniformLocation( 'lightColor' );
+
+	this.materialColor            = this.getUniformLocation( 'material.color' );
+	this.materialAmbientStrength  = this.getUniformLocation( 'material.ambientStrength' );
+	this.materialDiffuseStrength  = this.getUniformLocation( 'material.diffuseStrength' );
+	this.materialSpecularStrength = this.getUniformLocation( 'material.specularStrength' );
+	this.materialShininess        = this.getUniformLocation( 'material.shininess' );
 }
 
 
@@ -64,15 +68,14 @@ StaticShader.prototype.loadViewMatrix = function ( camera )
 StaticShader.prototype.loadLight = function ( light )
 {
 	this.loadVector3( this.lightPosition, light.position );
-	this.loadVector3( this.lightColor, light.color );
+	this.loadVector3( this.lightColor,    light.color );
 }
 
-StaticShader.prototype.loadShineDamper = function ( value )
+StaticShader.prototype.loadMaterial = function ( material )
 {
-	this.loadFloat( this.shineDamper, value );
-}
-
-StaticShader.prototype.loadReflectivity = function ( value )
-{
-	this.loadFloat( this.reflectivity, value );
+	this.loadVector3( this.materialColor,            material.color );
+	this.loadFloat(   this.materialAmbientStrength,  material.ambientStrength );
+	this.loadFloat(   this.materialDiffuseStrength,  material.diffuseStrength );
+	this.loadFloat(   this.materialSpecularStrength, material.specularStrength );
+	this.loadFloat(   this.materialShininess,        material.shininess );
 }

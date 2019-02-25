@@ -4,6 +4,20 @@ var Entity = function ( model, vec3_position, vec3_rotation, vec3_scale )
 	this.position = vec3_position;
 	this.rotation = vec3_rotation;
 	this.scale    = vec3_scale;
+
+	this.material = {
+
+		'color' : {
+
+			'x' : 1.0,
+			'y' : 1.0,
+			'z' : 1.0
+		},
+		'ambientStrength'  : 0.15,
+		'diffuseStrength'  : 1.0,
+		'specularStrength' : 0.2,
+		'shininess'        : 5.0
+	}
 }
 
 Entity.prototype.changePosition = function ( vec3_delta )

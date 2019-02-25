@@ -1,20 +1,36 @@
 // Diffuse
+//  https://learnopengl.com/Lighting/Basic-Lighting
 const fs_diffuse = `#version 300 es
 
 	precision mediump float;
 
-	in  vec3 surfaceNormal;
+	struct Material {
+
+		vec3  color;
+		float ambientStrength;
+		float diffuseStrength;
+		float specularStrength;
+		float shininess;
+	};
+
+	in  vec4 worldNormal;
 	in  vec3 toLightVector;
 
 	out vec4 outputColor;
 
-	uniform vec3 lightColor;
+	uniform Material material;
+	uniform vec3     lightColor;
 
 	void main ( void )
 	{
 		// Normalize so that size doesn't affect calculations, only direction
-		vec3 unitNormal      = normalize( surfaceNormal );
+		vec3 unitNormal      = normalize( worldNormal.xyz );
 		vec3 unitLightVector = normalize( toLightVector );
+
+
+		// --- Ambient ---
+		float ambientStrength = 0.15;
+		vec3 ambient = material.ambientStrength * lightColor;
 
 
 		// --- Diffuse ---
@@ -22,11 +38,13 @@ const fs_diffuse = `#version 300 es
 		   If pointing in same direction returns 1, otherwise a value < 1
 		*/
 		float normalDotLight = dot( unitNormal, unitLightVector );
-		float brightness     = max( normalDotLight, 0.2 );          // Set lower limit for brightness
-		vec3  diffuse        = brightness * lightColor;
+		float brightness     = max( normalDotLight, 0.0 );          // Set lower limit for brightness
+		vec3  diffuse        = material.diffuseStrength * brightness * lightColor;
 
 
 		// --- Final color ---
-		outputColor = vec4( diffuse, 1.0 );
+		vec3 finalColor = ( ambient + diffuse ) * material.color;
+
+		outputColor = vec4( finalColor, 1.0 );
 	}
 `;

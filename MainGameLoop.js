@@ -19,22 +19,20 @@ MainGameLoop.prototype.setup = function ()
 	this.objLoader     = new OBJLoader();
 	this.textureLoader = new TextureLoader();
 
-	// this.objLoader.loadOBJModel( 'Resources/tree.obj', this.loader );
-	this.objLoader.loadOBJModel( 'Resources/Custom/cube.obj', this.loader );
+	this.objLoader.loadOBJModel( 'Resources/tree.obj', this.loader );
+	// this.objLoader.loadOBJModel( 'Resources/Custom/cube.obj', this.loader );
 	// this.objLoader.loadOBJModel( 'Resources/Custom/icosphere.obj', this.loader );
 	// this.objLoader.loadOBJModel( 'Resources/Custom/blenderMonkey.obj', this.loader );
 	// this.objLoader.loadOBJModel( '../../3DModels/Temp/sonicTest.obj', this.loader );
 
 	this.texture = new ModelTexture( this.textureLoader.loadTexture( 'Resources/tree.png', 'image' ) );
-	// this.texture.shineDamper  = 1;
-	// this.texture.reflectivity = 0.2;
 
 
 	// Setup shaders
-	var vsSource = vs_phong;
-	var fsSource = fs_phong;
-	// var vsSource = vs_texture;
-	// var fsSource = fs_texture;
+	var vsSource = vs_diffuse;
+	var fsSource = fs_diffuse;
+	// var vsSource = vs_phong_texture;
+	// var fsSource = fs_phong_texture;
 
 
 	// Setup light
