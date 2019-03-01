@@ -26,17 +26,6 @@ var ShaderProgram = function ( vsSource, fsSource )
 }
 
 
-ShaderProgram.prototype.bindAttribute = function ( index, name )
-{
-	gl.bindAttribLocation( this.programID, index, name );
-}
-
-ShaderProgram.prototype.bindAttributes = function ()
-{
-	// Defined by child
-}
-
-
 ShaderProgram.prototype.getUniformLocation = function ( name )
 {
 	return gl.getUniformLocation( this.programID, name );
@@ -48,27 +37,14 @@ ShaderProgram.prototype.getAllUniformLocations = function ()
 }
 
 
-ShaderProgram.prototype.start = function ()
+ShaderProgram.prototype.bindAttribute = function ( index, name )
 {
-	gl.useProgram( this.programID );
+	gl.bindAttribLocation( this.programID, index, name );
 }
 
-ShaderProgram.prototype.stop = function ()
+ShaderProgram.prototype.bindAttributes = function ()
 {
-	gl.useProgram( null );
-}
-
-ShaderProgram.prototype.cleanUp = function ()
-{
-	this.stop();
-
-	gl.detachShader( this.programID, this.vertexShaderID );
-	gl.detachShader( this.programID, this.fragmentShaderID );
-
-	gl.deleteShader( this.vertexShaderID );
-	gl.deleteShader( this.fragmentShaderID );
-
-	gl.deleteProgram( this.programID );
+	// Defined by child
 }
 
 
@@ -97,6 +73,30 @@ ShaderProgram.prototype.loadMatrix4 = function ( location, matrix )
 		false,
 		matrix
 	);
+}
+
+
+ShaderProgram.prototype.start = function ()
+{
+	gl.useProgram( this.programID );
+}
+
+ShaderProgram.prototype.stop = function ()
+{
+	gl.useProgram( null );
+}
+
+ShaderProgram.prototype.cleanUp = function ()
+{
+	this.stop();
+
+	gl.detachShader( this.programID, this.vertexShaderID );
+	gl.detachShader( this.programID, this.fragmentShaderID );
+
+	gl.deleteShader( this.vertexShaderID );
+	gl.deleteShader( this.fragmentShaderID );
+
+	gl.deleteProgram( this.programID );
 }
 
 

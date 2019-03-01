@@ -25,7 +25,6 @@ StaticShader.prototype.bindAttributes = function ()
 	this.bindAttribute( 2, 'normal' );
 }
 
-
 StaticShader.prototype.getAllUniformLocations = function ()
 {
 	this.projectionMatrix         = this.getUniformLocation( 'projectionMatrix' );

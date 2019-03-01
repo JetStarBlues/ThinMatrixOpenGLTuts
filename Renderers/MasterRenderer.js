@@ -63,5 +63,5 @@ MasterRenderer.prototype.processEntity = function ( entity )
 
 MasterRenderer.prototype.cleanUp = function ()
 {
-	this.shader.cleanUp();
+	this.entityRenderer.cleanUp();
 }

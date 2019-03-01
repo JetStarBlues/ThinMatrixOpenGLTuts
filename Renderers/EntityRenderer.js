@@ -7,7 +7,10 @@ var EntityRenderer = function ( shaderSource, projectionMatrix )
 	);
 
 	this.shader.start();
+
+	// Load uniforms that never change
 	this.shader.loadProjectionMatrix( projectionMatrix );
+
 	this.shader.stop();
 }
 
@@ -15,6 +18,7 @@ EntityRenderer.prototype.render = function ( entities, camera, sun )
 {
 	this.shader.start();
 
+	// Load uniforms that might change
 	this.shader.loadViewMatrix( camera );
 	this.shader.loadLight( sun );
 
@@ -105,4 +109,9 @@ EntityRenderer.prototype.unbindTexturedModel = function ()
 	gl.disableVertexAttribArray( 2 );  // normal
 
 	gl.bindVertexArray( null );
+}
+
+EntityRenderer.prototype.cleanUp = function ()
+{
+	this.shader.cleanUp();
 }

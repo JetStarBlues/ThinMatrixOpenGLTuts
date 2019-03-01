@@ -14,10 +14,39 @@ TODO:
 			. barycentric coordinates
 			. https://www.khanacademy.org/partner-content/pixar/modeling-character/subdivision-averages/v/charactermodeling5
 
+	- mouse picking
+		. glMatrix.vec4.transformMat4( receivingVec, vecToTransform, mat4ToTransformWith )
+
+	- water
+		. try rendering the depth buffer
+		  (if no colors, make it grayscale)
+		. "Instead of disabling the clip plane, you can simply set the vector to 0,0,0,0"
+		. "be sure that your refraction texture has the same resolution than your display ! The reflection texture size doesn't matter, you can reduce it"
+		. "make deeper water look murky then can add" :
+		  refractColour = mix(refractColour, murkyWaterColour, clamp(waterDepth/60.0, 0.0, 1.0));
+
 	- particles
 		. data.gui for particle customization?
 			https://workshop.chromeexperiments.com/examples/gui/#1--Basic-Usage
 		. recreate KA projects
+		. recreate ultima
 
+	- multiple render targets
+		. glow map moonstone
+
+	- geometry shader
+		. paraphrased "calculate triangle normal in geometry shader instead of
+		  having duplicate vertices in VAO (to store precomputed face normals)"
+
+	- cube map reflections
+		. what does it look like with just refraction (no reflection)?
+
+	- animation
+		. find well supported js library for importing collada?
+		  or use bespoke (more control) like tuts?
+
+
+	- when something worth showing, take video cause changing API etc.
+		. maybe https://github.com/spite/ccapture.js/
 
 

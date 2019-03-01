@@ -1,8 +1,9 @@
 // Global variables
 var gl;
-var loopID;
 var program;
+var loopID, isPaused;
 
+var then, deltaTime;
 
 var KEY_LEFT  = 37;
 var KEY_RIGHT = 39;
@@ -13,6 +14,7 @@ var KEY_D     = 68;
 var KEY_F     = 70;
 var KEY_G     = 71;
 var KEY_H     = 72;
+var KEY_P     = 80;
 var KEY_Q     = 81;
 var KEY_S     = 83;
 var KEY_X     = 88;
@@ -26,7 +28,9 @@ function main ()
 {
 	setup();
 
-	loopID = requestAnimationFrame( render );
+	isPaused = false;
+	then     = 0;
+	loopID   = requestAnimationFrame( render );
 }
 
 
@@ -52,7 +56,12 @@ function setup ()
 function render ( now )
 {
 	// Get time
-	now *= 0.001;  // convert to seconds
+	now       *= 0.001;       // convert to seconds
+	deltaTime  = now - then;
+	then       = now;
+
+	// TODO: split to Update(deltaTime) and Draw()
+	// ...
 
 	// Render
 	program.render();
@@ -72,10 +81,41 @@ function stop ()
 	console.log( 'Adios!' );
 }
 
+
+// Pause
+function pause ()
+{
+	cancelAnimationFrame( loopID );  // stop loop
+
+	isPaused = true;
+
+	console.log( 'Paused' );
+}
+function resume ()
+{
+	isPaused = false;
+
+	console.log( 'Resumed' );
+
+	loopID = requestAnimationFrame( render );  // start loop
+}
+
+
 document.addEventListener( 'keydown', function ( evt ) {
 
 	if ( evt.keyCode == KEY_Q )
 	{
 		stop();
+	}
+	else if ( evt.keyCode == KEY_P )
+	{
+		if ( isPaused )
+		{
+			resume();
+		}
+		else
+		{
+			pause();
+		}
 	}
 } );
