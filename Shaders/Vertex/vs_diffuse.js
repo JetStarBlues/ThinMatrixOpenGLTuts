@@ -22,7 +22,7 @@ const vs_diffuse = `#version 300 es
 		vec4 worldPosition = transformationMatrix * vec4( position, 1.0 );
 
 		// Because normal can change direction when model is rotated
-		worldNormal = normalMatrix * vec4( normal, 1.0 );
+		worldNormal = normalMatrix * vec4( normal, 0.0 );
 
 		// Vector pointing from vertex to light
 		toLightVector = lightPosition - worldPosition.xyz;

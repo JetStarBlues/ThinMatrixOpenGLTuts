@@ -52,8 +52,9 @@ EntityRenderer.prototype.renderEntities = function ( entities )
 
 			// entity.changePosition( { 'x' : 0.00002, 'y' : 0, 'z' : 0 } );
 			// entity.changePosition( { 'x' : 0, 'y' : 0, 'z' : -0.00002 } );
-			// entity.changeRotation( { 'x' : 0, 'y' : 0.5, 'z' : 0 } );
-			entity.changeRotation( { 'x' : 0.5, 'y' : 0.5, 'z' : 0 } );
+			// entity.changeRotation( { 'x' : 0.5, 'y' : 0, 'z' : 0 } );
+			entity.changeRotation( { 'x' : 0, 'y' : 0.5, 'z' : 0 } );
+			// entity.changeRotation( { 'x' : 0.5, 'y' : 0.5, 'z' : 0 } );
 
 			this.prepareInstance( entity );
 
@@ -80,6 +81,7 @@ EntityRenderer.prototype.prepareTexturedModel = function ( model )
 	gl.enableVertexAttribArray( 0 );  // position
 	gl.enableVertexAttribArray( 1 );  // texureCoordinates
 	gl.enableVertexAttribArray( 2 );  // normal
+	gl.enableVertexAttribArray( 3 );  // vertexColors
 
 	gl.activeTexture( gl.TEXTURE0 );
 	gl.bindTexture( gl.TEXTURE_2D, model.texture.textureID );

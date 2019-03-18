@@ -36,8 +36,8 @@ MasterRenderer.prototype.configureGL = function ()
 	gl.clearColor( 0.0, 0.0, 0.0, 1.0 );  // Clear to black, fully opaque
 
 	// Depth test
-	gl.clearDepth( 1.0 );                 // Clear everything
 	gl.enable( gl.DEPTH_TEST );           // Enable depth testing
+	gl.clearDepth( 1.0 );                 // Clear everything
 	gl.depthFunc( gl.LEQUAL );            // Near things obscure far things
 
 	// Culling

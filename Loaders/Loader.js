@@ -8,19 +8,20 @@ var Loader = function ()
 
 }
 
-Loader.prototype.loadToVAO = function ( positions, textureCoords, normals, indices )
+Loader.prototype.loadToVAO = function ( data, dataIsTypedArray )
 {
 	var vaoID = this.createVAO();
 
-	this.bindIndicesBuffer( indices );
+	this.bindIndicesBuffer( data.indices, dataIsTypedArray );
 
-	this.storeDataInAttributeList( 0, 3, positions );
-	this.storeDataInAttributeList( 1, 2, textureCoords );
-	this.storeDataInAttributeList( 2, 3, normals );
+	this.storeDataInAttributeList( 0, 3, data.positions, dataIsTypedArray );
+	this.storeDataInAttributeList( 1, 2, data.textureCoords, dataIsTypedArray );
+	this.storeDataInAttributeList( 2, 3, data.normals, dataIsTypedArray );
+	this.storeDataInAttributeList( 3, 3, data.vertexColors, dataIsTypedArray );  // Blender vertex colors have no alpha (https://forum.unity.com/threads/vertex-rgba-blender-2-5x.254038/)
 
 	this.unbindVAO();  // might load more...
 
-	var rawModel = new RawModel( this.rawModelID, vaoID, indices.length );
+	var rawModel = new RawModel( this.rawModelID, vaoID, data.indices.length );
 
 	this.rawModelID += 1;
 
@@ -44,7 +45,7 @@ Loader.prototype.unbindVAO = function ()
 	gl.bindVertexArray( null );
 }
 
-Loader.prototype.bindIndicesBuffer = function ( indices )
+Loader.prototype.bindIndicesBuffer = function ( indices, dataIsTypedArray )
 {
 	// var vboID = gl.genBuffers();
 	var vboID = gl.createBuffer();  // WEBGL...
@@ -60,12 +61,12 @@ Loader.prototype.bindIndicesBuffer = function ( indices )
 	gl.bufferData(
 
 		gl.ELEMENT_ARRAY_BUFFER,
-		new Uint16Array( indices ),
+		dataIsTypedArray ? indices : new Uint16Array( indices ),
 		gl.STATIC_DRAW
 	);
 }
 
-Loader.prototype.storeDataInAttributeList = function ( attributeNumber, coordinateSize, data )
+Loader.prototype.storeDataInAttributeList = function ( attributeNumber, coordinateSize, data, dataIsTypedArray )
 {
 	// var vboID = gl.genBuffers();
 	var vboID = gl.createBuffer();  // WEBGL...
@@ -81,7 +82,7 @@ Loader.prototype.storeDataInAttributeList = function ( attributeNumber, coordina
 	gl.bufferData(
 
 		gl.ARRAY_BUFFER,
-		new Float32Array( data ),
+		dataIsTypedArray ? data : new Float32Array( data ),
 		gl.STATIC_DRAW
 	);
 

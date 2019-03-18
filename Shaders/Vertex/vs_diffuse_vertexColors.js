@@ -1,16 +1,16 @@
 // Diffuse with texture
 //  https://learnopengl.com/Lighting/Basic-Lighting
-const vs_diffuse_texture = `#version 300 es
+const vs_diffuse_vertexColors = `#version 300 es
 
 	precision mediump float;
 
 	in  vec3 position;
 	in  vec3 normal;
-	in  vec2 textureCoordinates;
+	in  vec4 vertexColor;
 
 	out vec4 worldNormal;
 	out vec3 toLightVector;
-	out vec2 pass_textureCoordinates;
+	out vec4 pass_vertexColor;
 
 	uniform mat4 projectionMatrix;
 	uniform mat4 transformationMatrix;
@@ -20,7 +20,7 @@ const vs_diffuse_texture = `#version 300 es
 
 	void main ( void )
 	{
-		pass_textureCoordinates = textureCoordinates;
+		pass_vertexColor = vertexColor;
 
 		// Because position can change direction when model is translated/scaled/rotated
 		vec4 worldPosition = transformationMatrix * vec4( position, 1.0 );

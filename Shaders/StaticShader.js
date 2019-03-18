@@ -23,6 +23,7 @@ StaticShader.prototype.bindAttributes = function ()
 	this.bindAttribute( 0, 'position' );
 	this.bindAttribute( 1, 'texureCoordinates' );
 	this.bindAttribute( 2, 'normal' );
+	this.bindAttribute( 3, 'vertexColor' );
 }
 
 StaticShader.prototype.getAllUniformLocations = function ()

@@ -17,14 +17,20 @@ MainGameLoop.prototype.setup = function ()
 	// Start loading models
 	this.loader        = new Loader();
 	this.objLoader     = new OBJLoader();
+	this.colladaLoader = new ColladaLoader();
 	this.textureLoader = new TextureLoader();
 
-	this.objLoader.loadOBJModel( 'Resources/Tutorials/tree.obj', this.loader );
+	// this.objLoader.loadOBJModel( 'Resources/Tutorials/tree.obj', this.loader );
 	// this.objLoader.loadOBJModel( 'Resources/Tutorials/lantern.obj', this.loader );
-	// this.objLoader.loadOBJModel( 'Resources/Tutorials/Custom/cube.obj', this.loader );
-	// this.objLoader.loadOBJModel( 'Resources/Tutorials/Custom/icosphere.obj', this.loader );
-	// this.objLoader.loadOBJModel( 'Resources/Tutorials/Custom/blenderMonkey.obj', this.loader );
-	// this.objLoader.loadOBJModel( '../../3DModels/Temp/sonicTest.obj', this.loader );
+	// this.objLoader.loadOBJModel( 'Resources/Custom/cube.obj', this.loader );
+	// this.objLoader.loadOBJModel( 'Resources/Custom/icosphere.obj', this.loader );
+	// this.objLoader.loadOBJModel( 'Resources/Custom/blenderMonkey.obj', this.loader );
+	// this.objLoader.loadOBJModel( '../../../../3DModels/Temp/sonicTest.obj', this.loader );
+
+	// this.colladaLoader.loadColladaModel( '../../../../3DModels/Temp/SonicDash0.dae', this.loader );
+	this.colladaLoader.loadColladaModel( '../../../../3DModels/Temp/SonicJog0.dae', this.loader );
+	// this.colladaLoader.loadColladaModel( 'Resources/Custom/cube.dae', this.loader );
+	// this.colladaLoader.loadColladaModel( 'Resources/Custom/blenderMonkey.dae', this.loader );
 
 	this.texture = new ModelTexture( this.textureLoader.loadTexture( 'Resources/Tutorials/tree.png', 'image' ) );
 	// this.texture = new ModelTexture( this.textureLoader.loadTexture( 'Resources/Tutorials/lantern.png', 'image' ) );
@@ -33,10 +39,12 @@ MainGameLoop.prototype.setup = function ()
 	// Setup shaders
 	var entityShaders = {
 
-		'vsSource' : vs_diffuse,
-		'fsSource' : fs_diffuse,
+		// 'vsSource' : vs_diffuse,
+		// 'fsSource' : fs_diffuse,
 		// 'vsSource' : vs_diffuse_texture,
 		// 'fsSource' : fs_diffuse_texture,
+		'vsSource' : vs_diffuse_vertexColors,
+		'fsSource' : fs_diffuse_vertexColors,
 	}
 
 
@@ -68,23 +76,38 @@ MainGameLoop.prototype.setup = function ()
 MainGameLoop.prototype.render = function ()
 {
 	// Check status of asynchronous events
-	if ( ( ! this.objLoader.initialized ) && this.objLoader.ready )
-	{
-		// OBJ is loaded, can now generate dependencies
-		this.setupEntities();
-
-		// do this only once
-		this.objLoader.initialized = true;
-	}
+	this.handleAsynchronousEvents();
 
 	// Render
 	this.renderer.render( this.camera, this.light );
 }
 
+MainGameLoop.prototype.handleAsynchronousEvents = function ()
+{
+	/*if ( ( ! this.objLoader.initialized ) && this.objLoader.ready )
+	{
+		// Model is loaded, can now generate dependencies
+		this.setupEntities();
+
+		// do this only once
+		this.objLoader.initialized = true;
+	}*/
+
+	if ( ( ! this.colladaLoader.initialized ) && this.colladaLoader.ready )
+	{
+		// Model is loaded, can now generate dependencies
+		this.setupEntities();
+
+		// do this only once
+		this.colladaLoader.initialized = true;
+	}
+}
+
 MainGameLoop.prototype.setupEntities = function ()
 {
 	// Setup model
-	var rawModel = this.objLoader.rawModel;
+	// var rawModel = this.objLoader.rawModel;
+	var rawModel = this.colladaLoader.rawModel;
 
 	var texturedModel = new TexturedModel( rawModel, this.texture );
 

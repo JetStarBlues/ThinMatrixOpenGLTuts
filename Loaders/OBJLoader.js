@@ -5,16 +5,15 @@ var OBJLoader = function ()
 
 	this.data = {
 
+		'indices'       : [],
 		'positions'     : [],
 		'textureCoords' : [],
 		'normals'       : [],
-		'indices'       : [],
 		'vertexColors'  : [],
 	}
 
 	this.loader   = null;
 	this.rawModel = null;
-	this.rawText  = null;
 }
 
 OBJLoader.prototype.loadOBJModel = function ( filepath, loader )
@@ -40,17 +39,9 @@ OBJLoader.prototype.createPlaceholder = function ()
 
 OBJLoader.prototype.onLoad = function ( rawText )
 {
-	this.rawText = rawText;
+	this.parseFile( rawText );
 
-	this.parseFile();
-
-	this.rawModel = this.loader.loadToVAO(
-
-		this.data.positions,
-		this.data.textureCoords,
-		this.data.normals,
-		this.data.indices
-	);
+	this.rawModel = this.loader.loadToVAO( this.data, false );
 
 	this.ready = true;
 
@@ -80,9 +71,9 @@ OBJLoader.prototype.readFile = function ( filepath )
 	request.send( null );
 }
 
-OBJLoader.prototype.parseFile = function ()
+OBJLoader.prototype.parseFile = function ( rawText )
 {
-	var lines = this.rawText.split( '\n' );
+	var lines = rawText.split( '\n' );
 
 	var positions     = [];
 	var textureCoords = [];

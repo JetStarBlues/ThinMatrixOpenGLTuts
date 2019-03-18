@@ -46,7 +46,43 @@ TODO:
 		  or use bespoke (more control) like tuts?
 
 
+
+	- How does Three.js allow dynamic light/object adding (re shaders)?
+
 	- when something worth showing, take video cause changing API etc.
 		. maybe https://github.com/spite/ccapture.js/
 
+	- Implement window resizing support as per WebGLFund
+
+
+	- Generate primitives (greggman)
+		. generate object given params
+			. ex. box (incl. cube), sphere, ellipse
+
+	- GUI
+		. (greggman)
+			. main.html can have '<div id="uiContainer"><div id="ui"></div></div>'
+			  then just use 'createChild'
+		. chrome dat.gui
+			. whatever has needed features...
+
+
+	- Physics (BennyBox)
+		. sphere-sphere collision
+			. when rendering
+			    - change color to show intersection
+			    - allow object to be draggable/movable
+		
+		. axis aligned bounding box collision
+			. box-box
+		
+		. plane collision
+			. plane-sphere
+
+	- Raycasting 
+		. (http://antongerdelan.net/opengl/raycasting.html)
+		. ray-plane
+		. ray-sphere
+		. ray-box(aabb)
+		. ray-triangle(barycentric)
 
