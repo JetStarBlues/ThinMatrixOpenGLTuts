@@ -1,4 +1,6 @@
 TODO:
+	- transparency
+		. try frosted ice/glass shader
 	- height map
 		. (0..255) then map(r, 0, 255, minHeight, maxHeight)
 		. canvas to get pixel, https://stackoverflow.com/a/8751659
